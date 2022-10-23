@@ -8,13 +8,26 @@
 </head>
 
 <body>
+
     <?php
-    $sum = 0;
-    for ($x = 1; $x <= 30; $x++) {
-        $sum += $x;
-    }
-    echo "The sum of the numbers 0 to 30 is $sum" . "\n";
+    $numbers = range(1, 100);
+    echo implode('+', $numbers) . '=' . array_sum($numbers);
     ?>
+
+    <?php
+
+    $start = 1;
+    $end = 10;
+
+    $sum = 0;
+    for ($i = $start; $i <= $end; $i++) {
+        $sum += $i;
+    }
+
+    echo implode('+', range($start, $end)) . '=' . $sum;
+
+    ?>
+
 </body>
 
 </html>
