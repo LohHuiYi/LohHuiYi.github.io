@@ -14,27 +14,8 @@
 
 <body>
 
-    <?php
-    $numbers = range(1, 100);
-    echo implode('+', $numbers) . '=' . array_sum($numbers);
-    ?>
-
-    <?php
-
-    $start = 1;
-    $end = 10;
-
-    $sum = 0;
-    for ($i = $start; $i <= $end; $i++) {
-        $sum += $i;
-    }
-
-    echo implode('+', range($start, $end)) . '=' . $sum;
-
-    ?>
-
     <div class="container-fluid">
-        <div class="alert alert-danger" role="alert">
+        <div class="bg-dark text-warning">
             <?php
             $sum = 0;
 
