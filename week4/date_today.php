@@ -40,7 +40,7 @@
                 </option>
 
                 <?php
-                $months = array("January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "November",  "December");
+                $months = array("January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November",  "December");
                 foreach ($months as $m) {
                     echo "<option value=\"" . $m . "\">" . $m . "</option>";
                 }
