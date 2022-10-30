@@ -51,48 +51,37 @@
                 if (($month == 1 && $day > 19) || ($month == 2 && $day < 19)) {
                     $mysign = "<b>Aquarius</b>";
                     echo "<img src='images/Aquarius.png' /><br>";
-                }
-                if (($month == 2 && $day > 18) || ($month == 3 && $day < 21)) {
+                } else if (($month == 2 && $day > 18) || ($month == 3 && $day < 21)) {
                     $mysign = "<b>Pisces</b>";
                     echo "<img src='images/Pisces.png' /><br>";
-                }
-                if (($month == 3 && $day > 20) || ($month == 4 && $day < 21)) {
+                } else if (($month == 3 && $day > 20) || ($month == 4 && $day < 21)) {
                     $mysign = "<b>Aries</b>";
                     echo "<img src='images/Aries.png' /><br>";
-                }
-                if (($month == 4 && $day > 20) || ($month == 5 && $day < 22)) {
+                } else if (($month == 4 && $day > 20) || ($month == 5 && $day < 22)) {
                     $mysign = "<b>Taurus</b>";
                     echo "<img src='images/Taurus.png' /><br>";
-                }
-                if (($month == 5 && $day > 21) || ($month == 6 && $day < 22)) {
+                } else if (($month == 5 && $day > 21) || ($month == 6 && $day < 22)) {
                     $mysign = "<b>Gemini</b>";
                     echo "<img src='images/Gemini.png' /><br>";
-                }
-                if (($month == 6 && $day > 21) || ($month == 7 && $day < 24)) {
+                } else if (($month == 6 && $day > 21) || ($month == 7 && $day < 24)) {
                     $mysign = "<b>Cancer</b>";
                     echo "<img src='images/Cancer.png' /><br>";
-                }
-                if (($month == 7 && $day > 23) || ($month == 8 && $day < 24)) {
+                } else if (($month == 7 && $day > 23) || ($month == 8 && $day < 24)) {
                     $mysign = "<b>Leo</b>";
                     echo "<img src='images/Leo.png' /><br>";
-                }
-                if (($month == 8 && $day > 23) || ($month == 9 && $day < 24)) {
+                } else if (($month == 8 && $day > 23) || ($month == 9 && $day < 24)) {
                     $mysign = "<b>Virgo</b>";
                     echo "<img src='images/Virgo.png' /><br>";
-                }
-                if (($month == 9 && $day > 23) || ($month == 10 && $day < 24)) {
+                } else if (($month == 9 && $day > 23) || ($month == 10 && $day < 24)) {
                     $mysign = "<b>Libra</b>";
                     echo "<img src='images/Libra.png' /><br>";
-                }
-                if (($month == 10 && $day > 23) || ($month == 11 && $day < 23)) {
+                } else if (($month == 10 && $day > 23) || ($month == 11 && $day < 23)) {
                     $mysign = "<b>Scorpio</b>";
                     echo "<img src='images/Scorpio.png' /><br>";
-                }
-                if (($month == 11 && $day > 22) || ($month == 12 && $day < 23)) {
+                } else if (($month == 11 && $day > 22) || ($month == 12 && $day < 23)) {
                     $mysign = "<b>Sagittarius</b>";
                     echo "<img src='images/Sagittarius.png' /><br>";
-                }
-                if (($month == 12 && $day > 22) || ($month == 1 && $day < 21)) {
+                } else if (($month == 12 && $day > 22) || ($month == 1 && $day < 21)) {
                     $mysign = "<b>Capricorn</b>";
                     echo "<img src='images/Capricorn.png' /><br>";
                 }
