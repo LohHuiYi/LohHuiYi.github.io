@@ -44,11 +44,11 @@
                 <option selected>Month</option>
 
                 <?php
-                foreach ($months as $m => $month) {
+                foreach ($months as $m) {
                 ?>
                     <?php $default_month = ($m == $date->format('F')) ? 'selected' : ''; ?>
                     <option <?php echo $default_month; ?> value="<?php echo $m; ?>">
-                        <?php echo $month; ?>
+                        <?php echo $m; ?>
                     </option>
                 <?php
                 }

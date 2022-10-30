@@ -14,7 +14,7 @@
 
 <body>
     <?php
-    $IC = "020831-14-1276";
+    $IC = "991112-14-1273";
     $day = substr($IC, 4, 2);
     $month = substr($IC, 2, 2);
     $gender = substr($IC, 13);
