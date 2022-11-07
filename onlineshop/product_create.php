@@ -147,7 +147,7 @@
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td><textarea name='description' class='form-control'></textarea></td>
+                    <td><textarea name='description' class='form-control' rows="4" cols="50"></textarea></td>
                 </tr>
                 <tr>
                     <td>Price</td>
