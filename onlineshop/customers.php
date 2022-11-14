@@ -11,6 +11,7 @@
     }
 </style>
 
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,9 +32,9 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link" href="index.html">Home</a>
-                    <a class="nav-link active" aria-current="page" href="product_create.php">Create Product</a>
+                    <a class="nav-link" href="product_create.php">Create Product</a>
                     <a class="nav-link" href="product_read.php">Product List</a>
-                    <a class="nav-link" href="customers.php">Create Customer</a>
+                    <a class="nav-link active" aria-current="page" href="customers.php">Create Customer</a>
                     <a class="nav-link" href="customers_read.php">Customer List</a>
                     <a class="nav-link" href="contact.html">Contact</a>
                 </div>
@@ -43,9 +44,8 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>Create Product</h1>
+            <h1>Customers</h1>
         </div>
-
         <!-- html form to create product will be here -->
         <!-- PHP insert code will be here -->
 
@@ -58,88 +58,86 @@
             include 'config/database.php';
             try {
                 // posted values
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $price = $_POST['price'];
-                $promotion_price = $_POST['promotion_price'];
-                $manufacture_date = $_POST['manufacture_date'];
-                $expired_date = $_POST['expired_date'];
+                $username = ($_POST['username']);
+                $password = ($_POST['password']);
+                $first_name = ($_POST['first_name']);
+                $last_name = ($_POST['last_name']);
+                $gender = ($_POST['gender']);
+                $date_of_birth = ($_POST['date_of_birth']);
 
                 // checking query
-                if (empty($name)) {
-                    $nameErr = "<div class='alert alert-danger'>You didn't enter the Name.</div>";
-                    echo $nameErr;
+                if (empty($username)) {
+                    $usernameErr = "<div class='alert alert-danger'>Please enter the Username.</div>";
+                    echo $usernameErr;
                     $flag = true;
                 } else {
-                    $name = $_POST["name"];
+                    $username = $_POST["username"];
                 }
 
-                if (empty($description)) {
-                    $descErr = "<div class='alert alert-danger'>Please enter the description.</div>";
-                    echo $descErr;
+                if (strlen($username) < 6) {
+                    $usernameErr = "<div class='alert alert-danger'>Username must be at least 6 characters.</div>";
+                    echo $usernameErr;
                     $flag = true;
                 } else {
-                    $description = $_POST["description"];
+                    $username = $_POST["username"];
                 }
 
-                if (empty($price)) {
-                    $priceErr = "<div class='alert alert-danger'>Please enter the item's price.</div>";
-                    echo $priceErr;
+                if (empty($password)) {
+                    $passErr = "<div class='alert alert-danger'>Please enter the Password</div>";
+                    echo $passErr;
                     $flag = true;
                 } else {
-                    $price = $_POST["price"];
+                    $password = $_POST["password"];
                 }
 
-                if (empty($promotion_price)) {
-                    $promErr = "<div class='alert alert-danger'>Please fill in the item's promotion price</div>";
-                    echo $promErr;
+                if (empty($first_name)) {
+                    $fnErr = "<div class='alert alert-danger'>Please enter the First Name</div>";
+                    echo $fnErr;
                     $flag = true;
                 } else {
-                    $promotion_price = $_POST["price"];
-                    if (($promotion_price) >= ($price)) {
-                        $promErr = "<div class='alert alert-danger'>Promotion price should be cheaper than original price.</div>";
-                        echo $promErr;
-                        $flag = true;
-                    }
+                    $first_name = $_POST["first_name"];
                 }
 
-                if (empty($manufacture_date)) {
-                    $manuErr = "<div class='alert alert-danger'>Please enter the manufacture date.</div>";
-                    echo $manuErr;
+                if (empty($last_name)) {
+                    $lnErr = "<div class='alert alert-danger'>Please enter the Last Name</div>";
+                    echo $lnErr;
                     $flag = true;
                 } else {
-                    $manufacture_date = $_POST["manufacture_date"];
+                    $last_name = $_POST["last_name"];
                 }
 
-                if (empty($expired_date)) {
-                    $expErr = "<div class='alert alert-danger'>Please enter the expired date.</div>";
-                    echo $expErr;
+                if (empty($gender)) {
+                    $genErr = "<div class='alert alert-danger'>Please select the Gender</div>";
+                    echo $genErr;
                     $flag = true;
                 } else {
-                    $expired_date = $_POST["expired_date"];
-                    if (($expired_date) < ($manufacture_date)) {
-                        $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
-                        echo $expErr;
-                        $flag = true;
-                    }
+                    $gender = $_POST["gender"];
+                }
+
+                if (empty($date_of_birth)) {
+                    $dobErr = "<div class='alert alert-danger'>Please select the Date of Birth</div>";
+                    echo $dobErr;
+                    $flag = true;
+                } else {
+                    $date_of_birth = $_POST["date_of_birth"];
                 }
 
                 if ($flag == false) {
 
                     // insert query
-                    $query = "INSERT INTO products SET name=:name, description=:description, price=:price, created=:created, promotion_price=:promotion_price, manufacture_date=:manufacture_date, expired_date=:expired_date";
+                    $query = "INSERT INTO customers SET username=:username, password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth, registration=:registration";
                     // prepare query for execution
                     $stmt = $con->prepare($query);
                     // bind the parameters
-                    $stmt->bindParam(':name', $name);
-                    $stmt->bindParam(':description', $description);
-                    $stmt->bindParam(':price', $price);
-                    $stmt->bindParam(':promotion_price', $promotion_price);
-                    $stmt->bindParam(':manufacture_date', $manufacture_date);
-                    $stmt->bindParam(':expired_date', $expired_date);
+                    $stmt->bindParam(':username', $username);
+                    $stmt->bindParam(':password', $password);
+                    $stmt->bindParam(':first_name', $first_name);
+                    $stmt->bindParam(':last_name', $last_name);
+                    $stmt->bindParam(':gender', $gender);
+                    $stmt->bindParam(':date_of_birth', $date_of_birth);
                     // specify when this record was inserted to the database
                     $created = date('Y-m-d H:i:s');
-                    $stmt->bindParam(':created', $created);
+                    $stmt->bindParam(':registration', $registration);
                     // Execute the query
                     if ($stmt->execute()) {
                         echo "<div class='alert alert-success'>Record was saved.</div>";
@@ -164,28 +162,37 @@
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Name</td>
-                    <td><input type='text' name='name' class='form-control' /></td>
+                    <td>Userame</td>
+                    <td><input type='text' name='username' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Description</td>
-                    <td><textarea name='description' class='form-control' rows="4" cols="50"></textarea></td>
+                    <td>Password</td>
+                    <td><input type='password' name='password' class='form-control'></textarea></td>
                 </tr>
                 <tr>
-                    <td>Price</td>
-                    <td><input type='text' name='price' class='form-control' /></td>
+                    <td>First Name</td>
+                    <td><input type='text' name='first_name' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Promotion Price</td>
-                    <td><input type='text' name='promotion_price' class='form-control' /></td>
+                    <td>Last Name</td>
+                    <td><input type='text' name='last_name' class='form-control' /></td>
                 </tr>
                 <tr>
-                    <td>Manufacture Date</td>
-                    <td><input type='text' name='manufacture_date' class='form-control' /></td>
+                    <td>Gender</td>
+                    <td>
+                        <input type='radio' name='gender' value='Female' class='form-check-label'>
+                        <label>
+                            Female
+                        </label>
+                        <input type='radio' name='gender' value='Male' class='form-check-label'>
+                        <label>
+                            Male
+                        </label>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Expired Date</td>
-                    <td><input type='text' name='expired_date' class='form-control' /></td>
+                    <td>Date of Birth</td>
+                    <td><input type='date' name='date_of_birth' class='form-date' /></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -206,6 +213,7 @@
             </div>
         </div>
     </div>
+
     <!-- end .container -->
 
 
