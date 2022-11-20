@@ -23,24 +23,9 @@
 <body>
     <!-- container -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="index.html"><span class="text-warning">Mellow</span>Shoppe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="index.html">Home</a>
-                    <a class="nav-link" href="product_create.php">Create Product</a>
-                    <a class="nav-link" href="product_read.php">Product List</a>
-                    <a class="nav-link" href="customers.php">Create Customer</a>
-                    <a class="nav-link active" aria-current="page" href="customers_read.php">Customer List</a>
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+    include "nav.php"
+    ?>
 
     <div class="container">
         <div class="page-header">
@@ -55,7 +40,7 @@
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT username, first_name, last_name, gender, date_of_birth FROM customers ORDER BY username DESC";
+        $query = "SELECT username, first_name, last_name, gender, date_of_birth, account_status FROM customers ORDER BY username DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -78,6 +63,7 @@
             echo "<th>Last Name</th>";
             echo "<th>Gender</th>";
             echo "<th>Date of Birth</th>";
+            echo "<th>Account Status</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
@@ -94,6 +80,7 @@
                 echo "<td>{$last_name}</td>";
                 echo "<td>{$gender}</td>";
                 echo "<td>{$date_of_birth}</td>";
+                echo "<td>{$account_status}</td>";
                 echo "<td>";
                 // read one record
                 echo "<a href='customers_read_one.php?username={$username}' class='btn btn-info m-r-1em me-2'>Read</a>";

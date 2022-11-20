@@ -23,24 +23,9 @@
 <body>
     <!-- container -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="index.html"><span class="text-warning">Mellow</span>Shoppe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="index.html">Home</a>
-                    <a class="nav-link" href="product_create.php">Create Product</a>
-                    <a class="nav-link" href="product_read.php">Product List</a>
-                    <a class="nav-link active" aria-current="page" href="customers.php">Create Customer</a>
-                    <a class="nav-link" href="customers_read.php">Customer List</a>
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+    include "nav.php"
+    ?>
 
     <div class="container">
         <div class="page-header">
@@ -62,8 +47,9 @@
                 $password = ($_POST['password']);
                 $first_name = ($_POST['first_name']);
                 $last_name = ($_POST['last_name']);
-                $gender = ($_POST['gender']);
+                if (isset($_POST["gender"])) $gender = ($_POST['gender']);
                 $date_of_birth = ($_POST['date_of_birth']);
+                $confirm_password = ($_POST['confirm_password']);
 
                 // checking query
                 if (empty($username)) {
@@ -87,7 +73,13 @@
                     echo $passErr;
                     $flag = true;
                 } else {
-                    $password = $_POST["password"];
+                    $password = md5($_POST["password"]);
+                }
+
+                if ($_POST["confirm_password"] != $_POST["password"]) {
+                    $expErr = "<div class='alert alert-danger'>Please make sure your password is correct</div>";
+                    echo $expErr;
+                    $flag = true;
                 }
 
                 if (empty($first_name)) {
@@ -162,29 +154,49 @@
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
-                    <td>Userame</td>
-                    <td><input type='text' name='username' class='form-control' /></td>
+                    <td>Username</td>
+                    <td>
+                        <input type='text' name='username' class='form-control' value='<?php if (isset($_POST['username'])) {
+                                                                                            echo $_POST['username'];
+                                                                                        } ?>' />
+                    </td>
                 </tr>
                 <tr>
                     <td>Password</td>
                     <td><input type='password' name='password' class='form-control'></textarea></td>
                 </tr>
                 <tr>
+                    <td>Confirm Password</td>
+                    <td><input type='password' name='confirm_password' class='form-control'></textarea></td>
+                </tr>
+                <tr>
                     <td>First Name</td>
-                    <td><input type='text' name='first_name' class='form-control' /></td>
+                    <td><input type='text' name='first_name' class='form-control' value='<?php if (isset($_POST['first_name'])) {
+                                                                                                echo $_POST['first_name'];
+                                                                                            } ?>' /></td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
-                    <td><input type='text' name='last_name' class='form-control' /></td>
+                    <td><input type='text' name='last_name' class='form-control' value='<?php if (isset($_POST['last_name'])) {
+                                                                                            echo $_POST['last_name'];
+                                                                                        } ?>' /></td>
                 </tr>
                 <tr>
                     <td>Gender</td>
                     <td>
-                        <input type='radio' name='gender' value='Female' class='form-check-label'>
+                        <input type='radio' name='gender' value='Female' class='form-check-label' <?php if (isset($_POST["gender"])) {
+                                                                                                        if ($_POST['gender'] == "Female") {
+                                                                                                            echo "checked";
+                                                                                                        }
+                                                                                                    } ?> />
                         <label>
                             Female
                         </label>
-                        <input type='radio' name='gender' value='Male' class='form-check-label'>
+                        <input type='radio' name='gender' value='Male' class='form-check-label' <?php if (isset($_POST["gender"])) {
+                                                                                                    if ($_POST['gender'] == "Male") {
+                                                                                                        echo "checked";
+                                                                                                    }
+                                                                                                } ?> />
                         <label>
                             Male
                         </label>
@@ -192,7 +204,9 @@
                 </tr>
                 <tr>
                     <td>Date of Birth</td>
-                    <td><input type='date' name='date_of_birth' class='form-date' /></td>
+                    <td><input type='date' name='date_of_birth' class='form-date' value='<?php if (isset($_POST['date_of_birth'])) {
+                                                                                                echo $_POST['date_of_birth'];
+                                                                                            } ?>' /></td>
                 </tr>
                 <tr>
                     <td></td>

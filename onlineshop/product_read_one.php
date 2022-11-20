@@ -21,24 +21,9 @@
 
     <!-- container -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-        <div class="container">
-            <a class="navbar-brand" href="index.html"><span class="text-warning">Mellow</span>Shoppe</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="index.html">Home</a>
-                    <a class="nav-link" href="product_create.php">Create Product</a>
-                    <a class="nav-link active" aria-current="page" href="product_read.php">Product List</a>
-                    <a class="nav-link" href="customers.php">Create Customer</a>
-                    <a class="nav-link" href="customers_read.php">Customer List</a>
-                    <a class="nav-link" href="contact.html">Contact</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+    include "nav.php"
+    ?>
 
     <div class="container">
         <div class="page-header">
@@ -57,7 +42,7 @@
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -73,6 +58,9 @@
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $promotion_price = $row['promotion_price'];
+            $manufacture_date = $row['manufacture_date'];
+            $expired_date = $row['expired_date'];
         }
 
         // show error
@@ -98,6 +86,19 @@
                 <td>Price</td>
                 <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
             </tr>
+            <tr>
+                <td>Promotional Price</td>
+                <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Manufacture Date</td>
+                <td><?php echo htmlspecialchars($manufacture_date, ENT_QUOTES);  ?></td>
+            </tr>
+            <tr>
+                <td>Expired Date</td>
+                <td><?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?></td>
+            </tr>
+
             <tr>
                 <td></td>
                 <td>
