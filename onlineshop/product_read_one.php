@@ -22,7 +22,8 @@
     <!-- container -->
 
     <?php
-    include "nav.php"
+    include "session.php";
+    include "nav.php";
     ?>
 
     <div class="container">

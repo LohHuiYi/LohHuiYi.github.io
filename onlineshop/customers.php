@@ -24,10 +24,11 @@
     <!-- container -->
 
     <?php
-    include "nav.php"
+    include "session.php";
+    include "nav.php";
     ?>
 
-    <div class="container">
+    <div class="container mt-5">
         <div class="page-header">
             <h1>Customers</h1>
         </div>
@@ -38,6 +39,14 @@
 
         $flag = false;
 
+        //url there got this "action" or not
+        if (isset($_GET["action"])) {
+            if ($_GET["action"] == "success") {
+                echo "<div class='alert alert-success'>Record was saved.</div>";
+            }
+        }
+
+
         if ($_POST) {
             // include database connection
             include 'config/database.php';
@@ -47,7 +56,7 @@
                 $password = ($_POST['password']);
                 $first_name = ($_POST['first_name']);
                 $last_name = ($_POST['last_name']);
-                if (isset($_POST["gender"])) $gender = ($_POST['gender']);
+                $gender = ($_POST['gender']);
                 $date_of_birth = ($_POST['date_of_birth']);
                 $confirm_password = ($_POST['confirm_password']);
 
@@ -112,8 +121,50 @@
                     $flag = true;
                 } else {
                     $date_of_birth = $_POST["date_of_birth"];
+
+                    $date2 = date("Y-m-d");
+
+                    //find difference between two dates
+                    //strtotime = change ur string into date format
+                    //abs = doesnt matter positive or negative, turn num into zheng shu
+                    //$diff = the seconds between two dates
+                    $diff = (strtotime($date2) - strtotime($date_of_birth));
+
+                    //floor = round fraction down, change any num form into zheng shu
+                    //year, day, min, hour
+                    // from seconds change into year format
+                    $years = floor($diff / (365 * 60 * 60 * 24));
+
+                    //use echo to check whether the info format is right or not
+
+                    if ($years < 18) {
+                        $dobErr = "<div class='alert alert-danger'>Underage. Must be 18 year old to create.</div>";
+                        echo $dobErr;
+                        $flag = true;
+                    }
                 }
 
+
+
+                //insert query 
+                //need to find the username that user type have the same username in database
+                $query = "SELECT username FROM customers WHERE username=:username";
+                //prepare query for execution
+                $stmt = $con->prepare($query);
+                //bind the parameters
+                $stmt->bindParam(':username', $username);
+                //execute the query
+                $stmt->execute();
+                $num = $stmt->rowCount();
+
+                //if num > 0 means it found related info in database
+                if ($num > 0) {
+                    $dobErr = "<div class='alert alert-danger'>Username taken</div>";
+                    echo $dobErr;
+                    $flag = true;
+                }
+
+                //if flag = true wont be able to process through here
                 if ($flag == false) {
 
                     // insert query
@@ -132,6 +183,8 @@
                     $stmt->bindParam(':registration', $registration);
                     // Execute the query
                     if ($stmt->execute()) {
+                        header("Location: http://localhost/webdev/onlineshop/customers.php?action=success");
+
                         echo "<div class='alert alert-success'>Record was saved.</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";

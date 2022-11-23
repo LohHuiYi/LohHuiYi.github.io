@@ -89,7 +89,7 @@
         //find username
         $username = htmlspecialchars(strip_tags($_POST['username']));
         //insert query 
-        $query = "SELECT password, account_status FROM customers WHERE username=:username";
+        $query = "SELECT * FROM customers WHERE username=:username";
         //prepare query for execution
         $stmt = $con->prepare($query);
         //bind the parameters
@@ -106,14 +106,35 @@
 
             // values to fill up our form
             //username and password from database
+            $username = $row['username'];
             $password = $row['password'];
-            $account_status = $row['account_status'];
 
-            if ($password == md5($_POST['password'])) {
-                if ($account_status == 'Active') {
-                    session_start();
-                    $_SESSION['user'] = $_POST['username'];
-                    header("Location: http://localhost/webdev/onlineshop/index.php");
+            //find password
+            $password = md5($_POST['password']);
+
+            if ($password == md5($_POST['password']))
+
+                $query = "SELECT * FROM customers WHERE password=:password and username=:username";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(':password', $password);
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $num = $stmt->rowCount();
+
+            if ($num > 0) {
+                $account_status = 'Active';
+
+                $result = "SELECT * FROM customers WHERE username=:username and account_status=:account_status ";
+
+                $stmt = $con->prepare($result);
+                $stmt->bindParam(':username', $username);
+                $stmt->bindParam(':account_status', $account_status);
+                $stmt->execute();
+                $num = $stmt->rowCount();
+
+                //if num > 0 founded user and password and active, will direct user to homepage
+                if ($num > 0) {
+                    header("Location: http://localhost/webdev/onlineshop/index.html");
                 } else {
                     $staErr = "Your Account is suspended *";
                 }
@@ -145,6 +166,11 @@
                 <label for="password">Password</label>
             </div>
 
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
             <button class="w-100 btn btn-lg btn-warning text-dark" type="submit"><b>Sign in</b></button>
             <p class="mt-5 mb-3 text-muted">&copy; Copyright Mellow Shoppe 2022</p>
         </form>

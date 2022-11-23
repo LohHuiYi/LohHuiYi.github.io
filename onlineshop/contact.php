@@ -25,7 +25,8 @@
 <body>
 
     <?php
-    include "nav.php"
+    include "session.php";
+    include "nav.php";
     ?>
 
     <div class="p-5 bg-warning text-dark text-center">
