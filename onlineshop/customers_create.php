@@ -28,24 +28,23 @@
     include "nav.php";
     ?>
 
-    <div class="container mt-5">
-        <div class="page-header">
+    <div class="container">
+        <div class="page-header mt-5 pt-5">
             <h1>Customers</h1>
         </div>
         <!-- html form to create product will be here -->
         <!-- PHP insert code will be here -->
 
         <?php
-
         $flag = false;
 
+        //place for when refresh page user able to know whether their record success or not
         //url there got this "action" or not
         if (isset($_GET["action"])) {
             if ($_GET["action"] == "success") {
                 echo "<div class='alert alert-success'>Record was saved.</div>";
             }
         }
-
 
         if ($_POST) {
             // include database connection
@@ -122,6 +121,7 @@
                 } else {
                     $date_of_birth = $_POST["date_of_birth"];
 
+                    //current date
                     $date2 = date("Y-m-d");
 
                     //find difference between two dates
@@ -183,9 +183,7 @@
                     $stmt->bindParam(':registration', $registration);
                     // Execute the query
                     if ($stmt->execute()) {
-                        header("Location: http://localhost/webdev/onlineshop/customers.php?action=success");
-
-                        echo "<div class='alert alert-success'>Record was saved.</div>";
+                        header("Location: http://localhost/webdev/onlineshop/customers_create.php?action=success");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }

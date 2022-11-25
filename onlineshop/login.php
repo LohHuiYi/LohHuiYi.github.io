@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -111,7 +115,8 @@
 
             if ($password == md5($_POST['password'])) {
                 if ($account_status == 'Active') {
-                    session_start();
+                    //set session variable
+                    //Open a box(session) to store username that user submit/fill in
                     $_SESSION['user'] = $_POST['username'];
                     header("Location: http://localhost/webdev/onlineshop/index.php");
                 } else {
