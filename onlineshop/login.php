@@ -134,6 +134,13 @@ session_start();
 
     <main class="form-signin text-center">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <?php
+            if (isset($_GET["action"])) {
+                if ($_GET["action"] == "denied") {
+                    echo "<div class='alert alert-danger'>Please login before access the page.</div>";
+                }
+            }
+            ?>
             <img class="" src="images/mslogo.png" alt="" width="150" height="150">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 

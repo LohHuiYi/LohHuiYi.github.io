@@ -1,3 +1,7 @@
+<?php
+include "session.php";
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -46,7 +50,6 @@
 <body>
 
     <?php
-    include "session.php";
     include "nav.php";
     ?>
 

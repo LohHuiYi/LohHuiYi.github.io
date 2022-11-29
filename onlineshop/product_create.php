@@ -1,3 +1,7 @@
+<?php
+include "session.php";
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -23,7 +27,6 @@
     <!-- container -->
 
     <?php
-    include "session.php";
     include "nav.php";
     ?>
 

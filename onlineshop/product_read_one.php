@@ -1,3 +1,7 @@
+<?php
+include "session.php";
+?>
+
 <!DOCTYPE HTML>
 <html>
 
@@ -22,11 +26,10 @@
     <!-- container -->
 
     <?php
-    include "session.php";
     include "nav.php";
     ?>
 
-    <div class="container">
+    <div class="container mt-5 pt-5">
         <div class="page-header">
             <h1>Read Product</h1>
         </div>
