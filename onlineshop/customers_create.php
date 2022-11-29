@@ -30,7 +30,7 @@
 
     <div class="container">
         <div class="page-header mt-5 pt-5">
-            <h1>Customers</h1>
+            <h1>Create Customers</h1>
         </div>
         <!-- html form to create product will be here -->
         <!-- PHP insert code will be here -->
