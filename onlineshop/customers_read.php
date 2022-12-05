@@ -44,7 +44,7 @@ include "session.php";
         // delete message prompt will be here
 
         // select all data
-        $query = "SELECT username, first_name, last_name, gender, date_of_birth, account_status FROM customers ORDER BY username DESC";
+        $query = "SELECT customer_id, username, first_name, last_name, gender, date_of_birth, account_status FROM customers ORDER BY customer_id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -52,7 +52,7 @@ include "session.php";
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='create.php' class='btn btn-primary m-b-1em mb-4'>Create New Customer</a>";
+        echo "<a href='customers_create.php' class='btn btn-primary m-b-1em mb-4'>Create New Customer</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -62,6 +62,7 @@ include "session.php";
 
             //creating our table heading
             echo "<tr>";
+            echo "<th>Customer ID</th>";
             echo "<th>Username</th>";
             echo "<th>First Name</th>";
             echo "<th>Last Name</th>";
@@ -79,6 +80,7 @@ include "session.php";
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
+                echo "<td>{$customer_id}</td>";
                 echo "<td>{$username}</td>";
                 echo "<td>{$first_name}</td>";
                 echo "<td>{$last_name}</td>";
@@ -87,13 +89,13 @@ include "session.php";
                 echo "<td>{$account_status}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='customers_read_one.php?username={$username}' class='btn btn-info m-r-1em me-2'>Read</a>";
+                echo "<a href='customers_read_one.php?customer_id={$customer_id}' class='btn btn-info m-r-1em me-2'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='update.php?username={$username}' class='btn btn-primary m-r-1em me-2'>Edit</a>";
+                echo "<a href='customers_update.php?customer_id={$customer_id}' class='btn btn-primary m-r-1em me-2'>Edit</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$username});'  class='btn btn-danger me-2'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$customer_id});'  class='btn btn-danger me-2'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }

@@ -1,8 +1,12 @@
+<?php
+include "session.php";
+?>
+
 <!DOCTYPE HTML>
 <html>
 
 <head>
-    <title>PDO - Read Records - PHP CRUD Tutorial</title>
+    <title>Product Update</title>
     <style>
         .m-r-1em {
             margin-right: 1em;
@@ -70,8 +74,9 @@
         }
         ?>
 
-    <!-- HTML form to update record will be here -->
+        <!- HTML form to update record will be here -->
         <!-- PHP post to update record will be here -->
+
         <?php
         // check if form was submitted
         if ($_POST) {
