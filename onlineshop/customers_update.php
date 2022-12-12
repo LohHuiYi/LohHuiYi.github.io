@@ -88,17 +88,6 @@ include "session.php";
 
                 // posted values
 
-                if (empty($_POST['username'])) {
-                    $useErr = "Username is required *";
-                    $flag = true;
-                } else {
-                    $username = htmlspecialchars(strip_tags($_POST['username']));
-                    if (strlen($_POST['username']) < 6) {
-                        $useErr = "Username need at least 6 characters *";
-                        $flag = true;
-                    }
-                }
-
                 //if password field is not empty run this
                 if (!empty($_POST["password"]) or !empty($_POST["old_password"]) or !empty($_POST["confirm_password"])) {
 
@@ -161,12 +150,11 @@ include "session.php";
                     // write update query
                     // in this case, it seemed like we have so many fields to pass and
                     // it is better to label them and not use question marks
-                    $query = "UPDATE customers SET username=:username, password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE customer_id =:customer_id";
+                    $query = "UPDATE customers SET password=:password, first_name=:first_name, last_name=:last_name, gender=:gender, date_of_birth=:date_of_birth WHERE customer_id =:customer_id";
                     // prepare query for excecution
                     $stmt = $con->prepare($query);
                     // bind the parameters
                     $stmt->bindParam(':customer_id', $customer_id);
-                    $stmt->bindParam(':username', $username);
                     $stmt->bindParam(':password', $password);
                     $stmt->bindParam(':first_name', $first_name);
                     $stmt->bindParam(':last_name', $last_name);
@@ -196,8 +184,8 @@ include "session.php";
                     <table class='table table-hover table-responsive table-bordered'>
                         <tr>
                             <td>Username</td>
-                            <td><span class="error"><?php echo $useErr; ?></span>
-                                <input type='text' name='username' value="<?php echo htmlspecialchars($username, ENT_QUOTES);  ?>" class='form-control' />
+                            <td>
+                                <?php echo htmlspecialchars($username, ENT_QUOTES);  ?>
                             </td>
                         </tr>
                         <tr>
