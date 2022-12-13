@@ -41,7 +41,13 @@ include "session.php";
         // include database connection
         include 'config/database.php';
 
-        // delete message prompt will be here
+        $action = isset($_GET['action']) ? $_GET['action'] : "";
+
+        // if it was redirected from delete.php
+
+        if ($action == 'deleted') {
+            echo "<div class='alert alert-success'>Record was deleted.</div>";
+        }
 
         // select all data
         $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products ORDER BY id DESC";
@@ -125,7 +131,18 @@ include "session.php";
     <!-- end .container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
-    <!-- confirm delete record will be here -->
+    <script type='text/javascript'>
+        // confirm record deletion
+
+        function delete_user(id) {
+            var answer = confirm('Are you sure ?');
+            if (answer) {
+                // if user clicked ok,
+                // pass the id to delete.php and execute the delete query 
+                window.location = 'product_delete.php?id=' + id;
+            }
+        }
+    </script>
 </body>
 
 </html>

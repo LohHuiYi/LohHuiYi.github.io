@@ -64,8 +64,6 @@ include 'session.php';
             $value = array_count_values($product_id);
             $quantity = $_POST['quantity'];
 
-            // must choose one product
-
             // echo array details
 
             // var_dump($product_id);
@@ -74,18 +72,17 @@ include 'session.php';
             // echo "<br>";
             // echo print_r($value);
 
-            //if  three product column is empty
+            //if  three product column is empty, show error
             if ($product_id[0] == "" && $product_id[1] == "" && $product_id[2] == "") {
                 $proErr = "Please at least choose a product *";
-                echo "<div class='alert alert-danger'>Unable to create order.</div>";
+                echo "<div class='alert alert-danger'>Create order failed.</div>";
             } else {
-                // if product chosen but didnt insert quantity
+                // if product chosen but didnt insert quantity, show error
                 if ((!empty($product_id[0]) && empty($quantity[0])) or (!empty($product_id[1]) && empty($quantity[1])) or (!empty($product_id[2]) && empty($quantity[2]))) {
                     $proErr = "Please type the quantity of your product *";
-                    echo "<div class='alert alert-danger'>Unable to create order.</div>";
+                    echo "<div class='alert alert-danger'>Create order failed.</div>";
                 } else {
 
-                    //record the counts when submit to table
                     // record products, got 3 products and will run 3 times
                     // count (product_id), no matter how much new product you add it will auto count for you
                     // product id got how many then it will loop how many times
