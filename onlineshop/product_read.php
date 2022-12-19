@@ -18,7 +18,7 @@ include "session.php";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PDO - Create a Record - PHP CRUD Tutorial</title>
+    <title>Read Products</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
@@ -44,6 +44,10 @@ include "session.php";
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
         // if it was redirected from delete.php
+
+        if ($action == 'failed') {
+            echo "<div class='alert alert-danger'>Product has been ordered, can't be delete.</div>";
+        }
 
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";

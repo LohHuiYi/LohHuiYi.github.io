@@ -27,7 +27,10 @@
                         <a class="nav-link" href="customers_read.php">Customer List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="create_order.php">Create Order</a>
+                        <a class="nav-link" href="order_create.php">Create Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="order_read.php">Order List</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>

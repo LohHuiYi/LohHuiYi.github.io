@@ -8,32 +8,37 @@ try {
     // get record ID
     // isset() is a PHP function used to verify if a value is there or not
     //get user id from url
-    $id = isset($_GET['id']) ? $_GET['id'] :
-        die('ERROR: Record ID not found.');
+    $order_id = isset($_GET['order_id']) ? $_GET['order_id'] :
+        die('ERROR: Order ID not found.');
 
     // delete query
 
-    $query = "SELECT o.product_id, p.id FROM order_details o INNER JOIN products p ON p.id = o.product_id WHERE o.product_id = ? LIMIT 0,1";
-    $stmt = $con->prepare($query);
-    $stmt->bindParam(1, $id);
-    $stmt->execute();
-    $num = $stmt->rowCount();
+    // first delete from details then delete from summary
 
-    if ($num > 0) {
-        header('Location:product_read.php?action=failed');
-    } else {
-        $query = "DELETE FROM products WHERE id = ?";
+    $query = "DELETE FROM order_details WHERE order_id = ?";
+
+    $stmt = $con->prepare($query);
+
+    $stmt->bindParam(1, $order_id);
+
+    if ($stmt->execute()) {
+
+        $query = "DELETE FROM order_summary WHERE order_id = ?";
+
         $stmt = $con->prepare($query);
-        $stmt->bindParam(1, $id);
+
+        $stmt->bindParam(1, $order_id);
 
         if ($stmt->execute()) {
 
             // redirect to read records page and
             // tell the user record was deleted
-            header('Location:product_read.php?action=deleted');
+            header('Location:order_read.php?action=deleted');
         } else {
             die('Unable to delete record.');
         }
+    } else {
+        die('Unable to delete record.');
     }
 }
 

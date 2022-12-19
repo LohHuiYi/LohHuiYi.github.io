@@ -16,7 +16,7 @@ include "session.php";
 </style>
 
 <head>
-    <title>PDO - Read One Record - PHP CRUD Tutorial</title>
+    <title>Customers Details</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -29,7 +29,7 @@ include "session.php";
     include "nav.php";
     ?>
 
-    <div class="container">
+    <div class="container mt-5 pt-5">
         <div class="page-header">
             <h1>Read Customer</h1>
         </div>

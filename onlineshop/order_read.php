@@ -18,7 +18,7 @@ include "session.php";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Customers List</title>
+    <title>Order List</title>
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
@@ -33,7 +33,7 @@ include "session.php";
 
     <div class="container mt-5 pt-5">
         <div class="page-header">
-            <h1>Read Customers</h1>
+            <h1>Read Orders</h1>
         </div>
 
         <!-- PHP code to read records will be here -->
@@ -45,18 +45,12 @@ include "session.php";
 
         // if it was redirected from delete.php
 
-        if ($action == 'failed') {
-            echo "<div class='alert alert-danger'>Customer has ordered, can't be delete</div>";
-        }
-
         if ($action == 'deleted') {
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
-        // delete message prompt will be here
-
         // select all data
-        $query = "SELECT customer_id, username, first_name, last_name, gender, date_of_birth, account_status FROM customers ORDER BY customer_id DESC";
+        $query = "SELECT order_id, customer_id, total_amount, order_date FROM order_summary ORDER BY order_id DESC";
         $stmt = $con->prepare($query);
         $stmt->execute();
 
@@ -64,7 +58,7 @@ include "session.php";
         $num = $stmt->rowCount();
 
         // link to create record form
-        echo "<a href='customers_create.php' class='btn btn-primary m-b-1em mb-4'>Create New Customer</a>";
+        echo "<a href='order_create.php' class='btn btn-primary m-b-1em mb-3'>Create New Order</a>";
 
         //check if more than 0 record found
         if ($num > 0) {
@@ -74,13 +68,10 @@ include "session.php";
 
             //creating our table heading
             echo "<tr>";
+            echo "<th>Order ID</th>";
             echo "<th>Customer ID</th>";
-            echo "<th>Username</th>";
-            echo "<th>First Name</th>";
-            echo "<th>Last Name</th>";
-            echo "<th>Gender</th>";
-            echo "<th>Date of Birth</th>";
-            echo "<th>Account Status</th>";
+            echo "<th>Total Amount</th>";
+            echo "<th>Order Date</th>";
             echo "<th>Action</th>";
             echo "</tr>";
 
@@ -92,22 +83,16 @@ include "session.php";
                 extract($row);
                 // creating new table row per record
                 echo "<tr>";
+                echo "<td>{$order_id}</td>";
                 echo "<td>{$customer_id}</td>";
-                echo "<td>{$username}</td>";
-                echo "<td>{$first_name}</td>";
-                echo "<td>{$last_name}</td>";
-                echo "<td>{$gender}</td>";
-                echo "<td>{$date_of_birth}</td>";
-                echo "<td>{$account_status}</td>";
+                echo "<td>{$total_amount}</td>";
+                echo "<td>{$order_date}</td>";
                 echo "<td>";
                 // read one record
-                echo "<a href='customers_read_one.php?customer_id={$customer_id}' class='btn btn-info m-r-1em me-2'>Read</a>";
+                echo "<a href='order_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em me-2'>Read</a>";
 
                 // we will use this links on next part of this post
-                echo "<a href='customers_update.php?customer_id={$customer_id}' class='btn btn-primary m-r-1em me-2'>Edit</a>";
-
-                // we will use this links on next part of this post
-                echo "<a href='#' onclick='delete_user({$customer_id});'  class='btn btn-danger me-2'>Delete</a>";
+                echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger me-2'>Delete</a>";
                 echo "</td>";
                 echo "</tr>";
             }
@@ -134,20 +119,18 @@ include "session.php";
             </div>
         </div>
     </div>
-
     <!-- end .container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
-    <!-- confirm delete record will be here -->
     <script type='text/javascript'>
         // confirm record deletion
 
-        function delete_user(customer_id) {
+        function delete_user(order_id) {
             var answer = confirm('Are you sure ?');
             if (answer) {
                 // if user clicked ok,
                 // pass the id to delete.php and execute the delete query 
-                window.location = 'customers_delete.php?customer_id=' + customer_id;
+                window.location = 'order_delete.php?order_id=' + order_id;
             }
         }
     </script>
