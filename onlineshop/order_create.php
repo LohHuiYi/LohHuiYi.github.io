@@ -44,6 +44,7 @@ include 'session.php';
 
         include 'nav.php';
         include 'config/database.php';
+        date_default_timezone_set("Asia/Kuala_Lumpur");
 
         $useErr = $proErr = "";
         // $flag = false;
@@ -69,6 +70,10 @@ include 'session.php';
             // product id got how many then it will loop how many times
             for ($x = 0; $x < count($product_id); $x++) {
 
+                if (empty($product_id[0])) {
+                    $proErr = "Choose product with quantity *";
+                }
+
                 if ($product_id[$x] != "") {
                     if ($quantity[$x] == "") {
                         $proErr = "Choose product with quantity *";
@@ -87,7 +92,7 @@ include 'session.php';
 
                 //set rule/conditions
                 //run loop 3 times
-                for ($x = 0; $x < 3; $x++) {
+                for ($x = 0; $x < count($product_id); $x++) {
 
                     $query = "SELECT price, promotion_price FROM products WHERE id = :id";
                     $stmt = $con->prepare($query);
@@ -113,7 +118,7 @@ include 'session.php';
                 // echo $total_amount;
 
                 //send data to order_summary
-                $order_date = date('Y-m-d');
+                $order_date = date('Y-m-d H:i:s');
                 $query = "INSERT INTO order_summary SET customer_id=:customer_id, order_date=:order_date, total_amount=:total_amount";
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(':customer_id', $customer_id);
@@ -133,12 +138,16 @@ include 'session.php';
                             $stmt->bindParam(':id', $product_id[$x]);
                             $stmt->execute();
                             $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                            $num = $stmt->rowCount();
 
-                            if ($row['promotion_price'] == 0) {
-                                $price = $row['price'];
-                            } else {
-                                $price = $row['promotion_price'];
+                            if ($num > 0) {
+                                if ($row['promotion_price'] == 0) {
+                                    $price = $row['price'];
+                                } else {
+                                    $price = $row['promotion_price'];
+                                }
                             }
+
                             $price_each = ((float)$price * (int)$quantity[$x]);
 
                             //send data to order_detail
@@ -151,7 +160,7 @@ include 'session.php';
                             $stmt->execute();
                         }
                     }
-                    echo "<div class='alert alert-success'>Create order successful.</div>";
+                    header("Location: http://localhost/webdev/onlineshop/order_read.php?action=successful");
                 } else {
                     echo "<div class='alert alert-danger'>Unable to create order.</div>";
                 }
@@ -172,74 +181,84 @@ include 'session.php';
             ?>
 
 
-            <table class='table table-hover table-responsive table-bordered mb-5'>
+
+            <div class="row">
+                <label class="order-form-label">Username</label>
+            </div>
+
+            <div class="col-6 mb-3 mt-2">
+                <span class="error"><?php echo $useErr; ?></span>
+                <select class="form-select bg-warning" name="customer_id" aria-label="form-select-lg example">
+                    <option value="" selected>Choose Username</option>
+                    <?php
+                    //if more then 0, value="01">"username"</option>
+                    if ($num > 0) {
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            extract($row); ?>
+                            <option value="<?php echo $customer_id; ?>"><?php echo htmlspecialchars($username, ENT_QUOTES); ?></option>
+                    <?php }
+                    }
+                    ?>
+
+                </select>
+
+            </div>
+            <span class="error"><?php echo $proErr; ?></span>
+            <?php
+            //forloop, for 3 product
+            //no need repeat to paste 3 things
+            // select product
+            $query = "SELECT id, name, price, promotion_price FROM products ORDER BY id DESC";
+            $stmt = $con->prepare($query);
+            $stmt->execute();
+            // this is how to get number of rows returned
+            $num = $stmt->rowCount();
+            ?>
+
+            <div class="pRow">
                 <div class="row">
-                    <label class="order-form-label">Username</label>
-                </div>
-
-                <div class="col-6 mb-3 mt-2">
-                    <span class="error"><?php echo $useErr; ?></span>
-                    <select class="form-select bg-warning" name="customer_id" aria-label="form-select-lg example">
-                        <option value="" selected>Choose Username</option>
-                        <?php
-                        //if more then 0, value="01">"username"</option>
-                        if ($num > 0) {
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                extract($row); ?>
-                                <option value="<?php echo $customer_id; ?>"><?php echo htmlspecialchars($username, ENT_QUOTES); ?></option>
-                        <?php }
-                        }
-                        ?>
-
-                    </select>
-
-                </div>
-                <span class="error"><?php echo $proErr; ?></span>
-                <?php
-                //forloop, for 3 product
-                //no need repeat to paste 3 things
-                for ($x = 0; $x < 3; $x++) {
-                    // select product
-                    $query = "SELECT id, name, price, promotion_price FROM products ORDER BY id DESC";
-                    $stmt = $con->prepare($query);
-                    $stmt->execute();
-                    // this is how to get number of rows returned
-                    $num = $stmt->rowCount();
-                ?>
-
-                    <div class="row">
-
-                        <div class="col-12">
-                            <label class="order-form-label col-3">Product</label>
-                            <label class="order-form-label">Quantity</label>
-
-                        </div>
-                        <div class="col-3 mb-2 mt-2">
-                            <select class="form-select bg-warning" name="product_id[]" aria-label="form-select-lg example">
-                                <option value="" selected>Choose Product</option>
-                                <?php
-                                if ($num > 0) {
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        extract($row); ?>
-                                        <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($name, ENT_QUOTES); ?><?php if ($promotion_price == 0) {
-                                                                                                                                    echo " (RM$price)";
-                                                                                                                                } else {
-                                                                                                                                    echo " (RM$promotion_price)";
-                                                                                                                                } ?></option>
-                                <?php }
-                                }
-                                ?>
-
-                            </select>
-                        </div>
-
-                        <input class="col-1 mb-2 mt-2" type="number" id="quantity[]" name="quantity[]" min=1>
+                    <div class="col-8 mb-2 ">
+                        <label class="order-form-label">Product</label>
                     </div>
-                <?php } ?>
+
+                    <div class="col-4 mb-2"><label class="order-form-label">Quantity</label>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <select class="form-select  mb-3" id="" name="product_id[]" aria-label="form-select-lg example">
+                            <option value='' selected>Choose your product </option>
+
+                            <?php if ($num > 0) {
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    extract($row); ?>
+                                    <option value="<?php echo $id; ?>">
+                                        <?php echo htmlspecialchars($name, ENT_QUOTES);
+                                        if ($promotion_price == 0) {
+                                            echo " (RM$price)";
+                                        } else {
+                                            echo " (RM$promotion_price)";
+                                        } ?>
+
+                                    </option>
+                            <?php }
+                            }
+                            ?>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-4 mb-3">
+                        <input type='number' id='quantity[]' name='quantity[]' class='form-control' min=1 />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-2">
+                <input type="button" value="Add More" class="add_one btn btn-primary" />
+                <input type="button" value="Delete" class="delete_one btn btn-danger" />
+                <input type='submit' value='Order' class='btn btn-warning' />
+            </div>
 
 
-            </table>
-            <input type="submit" class="btn btn-warning" />
         </form>
 
 
@@ -247,6 +266,22 @@ include 'session.php';
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+        </script>
+        <script>
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.add_one')) {
+                    var element = document.querySelector('.pRow');
+                    var clone = element.cloneNode(true);
+                    element.after(clone);
+                }
+                if (event.target.matches('.delete_one')) {
+                    var total = document.querySelectorAll('.pRow').length;
+                    if (total > 1) {
+                        var element = document.querySelector('.pRow');
+                        element.remove(element);
+                    }
+                }
+            }, false);
         </script>
 </body>
 

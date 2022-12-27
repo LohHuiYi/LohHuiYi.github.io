@@ -53,6 +53,10 @@ include "session.php";
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
+        if ($action == 'successful') {
+            echo "<div class='alert alert-success'>Product created successfully.</div>";
+        }
+
         // select all data
         $query = "SELECT id, name, description, price, promotion_price, manufacture_date, expired_date FROM products ORDER BY id DESC";
         $stmt = $con->prepare($query);

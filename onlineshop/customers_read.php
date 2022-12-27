@@ -53,6 +53,10 @@ include "session.php";
             echo "<div class='alert alert-success'>Record was deleted.</div>";
         }
 
+        if ($action == 'successful') {
+            echo "<div class='alert alert-success'>Customer created successfully.</div>";
+        }
+
         // delete message prompt will be here
 
         // select all data

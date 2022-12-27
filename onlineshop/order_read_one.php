@@ -43,75 +43,55 @@ include "session.php";
         //include database connection
         include 'config/database.php';
 
-        // read current record's data
-        try {
-            // prepare select query
+        $query = "SELECT product_id, quantity, price_each, id, name, price, promotion_price, total_amount
+        FROM order_details o
+        INNER JOIN products p
+        ON o.product_id = p.id
+        INNER JOIN order_summary s
+        ON o.order_id = s.order_id
+        WHERE o.order_id = ?";
 
-            //select from order summary
-            $query = "SELECT order_id, total_amount FROM order_summary WHERE order_id = ? LIMIT 0,1";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $order_id);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $order_id = $row['order_id'];
-            $total_amount = $row['total_amount'];
-
-            //select from order details
-            $query = "SELECT order_details_id, order_id, product_id, quantity, price_each FROM order_details WHERE order_id = ? LIMIT 0,1";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(1, $order_id);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $order_details_id = $row['order_details_id'];
-            $product_id = $row['product_id'];
-            $quantity = $row['quantity'];
-            $price_each = $row['price_each'];
-
-            //select from products
-            $query = "SELECT name, price, promotion_price FROM products WHERE id=:id";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(':id', $product_id);
-            $stmt->execute();
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $name = $row['name'];
-            if ($row['promotion_price'] == 0) {
-                $price = $row['price'];
-            } else {
-                $price = $row['promotion_price'];
-            }
-        }
-
-        // show error
-        catch (PDOException $exception) {
-            die('ERROR: ' . $exception->getMessage());
-        }
+        $stmt = $con->prepare($query);
+        $stmt->bindParam(1, $order_id);
+        $stmt->execute();
+        $num = $stmt->rowCount();
         ?>
 
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th scope="col">Product</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Product ID</th>
+                    <th scope="col">Price (RM)</th>
                     <th scope="col">Quantity</th>
-                    <th scope="col">Total Price</th>
+                    <th scope="col">Total Price (RM)</th>
                 </tr>
             </thead>
             <tbody>
-                <?php for ($x = 0; $x < 3; $x++) { ?>
+
+                <?php
+                if ($num > 0) {
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        extract($row); ?>
+                        <tr>
+                            <th scope="row"><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></th>
+                            <td><?php echo htmlspecialchars($id, ENT_QUOTES);  ?></td>
+                            <td><?php if ($promotion_price == 0) {
+                                    echo number_format((float)htmlspecialchars($price, ENT_QUOTES), 2, '.', '');
+                                } else {
+                                    echo number_format((float)htmlspecialchars($promotion_price, ENT_QUOTES), 2, '.', '');
+                                }
+                                ?></td>
+                            <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
+                            <td><?php echo number_format((float)htmlspecialchars($price_each, ENT_QUOTES), 2, '.', '');  ?></td>
+                        </tr>
+                    <?php } ?>
                     <tr>
-                        <th scope="row"><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></th>
-                        <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
-                        <td><?php echo htmlspecialchars($quantity, ENT_QUOTES);  ?></td>
-                        <td><?php echo htmlspecialchars($price_each, ENT_QUOTES);  ?></td>
+                        <th colspan="4">Total Amount (RM)</th>
+                        <td><?php echo "<b>" . number_format((float)htmlspecialchars($total_amount, ENT_QUOTES), 2, '.', '') . "</b>";  ?></td>
                     </tr>
                 <?php } ?>
-                <tr>
-                    <td colspan="3"></td>
-                    <td><?php echo htmlspecialchars($total_amount, ENT_QUOTES);  ?></td>
-                </tr>
+
             </tbody>
         </table>
         <tr>
