@@ -1,12 +1,12 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.php"><span class="text-warning">Mellow</span>Shoppe</a>
+        <a class="navbar-brand" href="index.php"><img src="images/mslogo.png" alt="Bootstrap" width="50" height="50"><span class="text-warning">Metaverse</span>System</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
             <div class="offcanvas-header">
-                <a class="navbar-brand" href="index.php"><span class="text-warning">Mellow</span>Shoppe</a>
+                <a class="navbar-brand" href="index.php"><span class="text-warning">Metaverse</span>System</a>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
@@ -15,22 +15,13 @@
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="product_create.php">Create Product</a>
+                        <a class="nav-link" href="product_read.php">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="product_read.php">Product List</a>
+                        <a class="nav-link" href="customers_read.php">Customers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="customers_create.php">Create Customer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="customers_read.php">Customer List</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="order_create.php">Create Order</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="order_read.php">Order List</a>
+                        <a class="nav-link" href="order_read.php">Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>

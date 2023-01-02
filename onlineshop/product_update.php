@@ -31,7 +31,12 @@ include "session.php";
 </head>
 
 <body>
-    <div class="container">
+
+    <?php
+    include "nav.php";
+    ?>
+
+    <div class="container mt-5 pt-5">
         <div class="page-header">
             <h1>Update Product</h1>
         </div>
@@ -78,6 +83,7 @@ include "session.php";
         <!-- PHP post to update record will be here -->
 
         <?php
+        $flag = false;
         // check if form was submitted
         if ($_POST) {
             try {
@@ -104,11 +110,32 @@ include "session.php";
                 $stmt->bindParam(':manufacture_date', $manufacture_date);
                 $stmt->bindParam(':expired_date', $expired_date);
                 $stmt->bindParam(':id', $id);
-                // Execute the query
-                if ($stmt->execute()) {
-                    echo "<div class='alert alert-success'>Record was updated.</div>";
+
+                if (empty($promotion_price)) {
+                    $promotion_price = NULL;
+                } else if (($promotion_price) > ($price)) {
+                    $promErr = "<div class='alert alert-danger'>Promotion price should be cheaper than original price.</div>";
+                    echo $promErr;
+                    $flag = true;
+                }
+
+                if (empty($expired_date)) {
+                    $expired_date = NULL;
+                } else if (($expired_date) < ($manufacture_date)) {
+                    $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
+                    echo $expErr;
+                    $flag = true;
+                }
+
+                if ($flag == false) {
+                    // Execute the query
+                    if ($stmt->execute()) {
+                        echo "<div class='alert alert-success'>Record was updated.</div>";
+                    } else {
+                        echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    }
                 } else {
-                    echo "<div class='alert alert-danger'>Unable to update record. Please try again.</div>";
+                    echo "<div class='alert alert-danger'>Failed to update record.</div>";
                 }
             }
             // show errors
@@ -163,6 +190,17 @@ include "session.php";
 
     </div>
     <!-- end .container -->
+
+    <div class=" p-4 bg-dark text-white text-center">
+        <div class="container">
+            <div class="copyright">
+                © Copyright <strong><span class="text-warning">Mellow Shoppe</span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

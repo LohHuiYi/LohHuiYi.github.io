@@ -31,7 +31,12 @@ include "session.php";
 </head>
 
 <body>
-    <div class="container">
+
+    <?php
+    include "nav.php";
+    ?>
+
+    <div class="container mt-5 pt-5">
         <div class="page-header">
             <h1>Update Customer</h1>
         </div>
@@ -48,7 +53,7 @@ include "session.php";
         // read current record's data
         try {
             // prepare select query
-            $query = "SELECT customer_id, username, password, first_name, last_name, gender, date_of_birth FROM customers WHERE customer_id = ? LIMIT 0,1";
+            $query = "SELECT customer_id, username, password, first_name, last_name, gender, date_of_birth, registration FROM customers WHERE customer_id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark
@@ -67,6 +72,7 @@ include "session.php";
             $last_name = $row['last_name'];
             $gender = $row['gender'];
             $date_of_birth = $row['date_of_birth'];
+            $registration = $row['registration'];
         }
 
         // show error
@@ -248,6 +254,12 @@ include "session.php";
                             </td>
                         </tr>
                         <tr>
+                            <td>Registration</td>
+                            <td>
+                                <?php echo htmlspecialchars($registration, ENT_QUOTES);  ?>
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td>
                                 <input type='submit' value='Save Changes' class='btn btn-primary' />
@@ -261,6 +273,17 @@ include "session.php";
 
     </div>
     <!-- end .container -->
+
+    <div class=" p-4 bg-dark text-white text-center">
+        <div class="container">
+            <div class="copyright">
+                © Copyright <strong><span class="text-warning">Mellow Shoppe</span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

@@ -71,6 +71,10 @@ session_start();
             user-select: none;
         }
 
+        .error {
+            color: red;
+        }
+
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -128,6 +132,9 @@ session_start();
         } else {
             $useErr = "User not found *";
         }
+        if (empty($_POST['username'])) {
+            $useErr = "Username & password is required* ";
+        }
     }
     ?>
 
@@ -158,7 +165,7 @@ session_start();
             </div>
 
             <button class="w-100 btn btn-lg btn-warning text-dark" type="submit"><b>Sign in</b></button>
-            <p class="mt-5 mb-3 text-muted">&copy; Copyright Mellow Shoppe 2022</p>
+            <p class="mt-5 mb-3 text-muted">&copy; Copyright Metaverse System 2022</p>
         </form>
     </main>
 

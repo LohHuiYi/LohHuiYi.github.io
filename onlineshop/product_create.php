@@ -71,19 +71,23 @@ include "session.php";
                     $price = $_POST["price"];
                 }
 
-                if (($promotion_price) > ($price)) {
+                if (empty($promotion_price)) {
+                    $promotion_price = NULL;
+                } else if (($promotion_price) > ($price)) {
                     $promErr = "<div class='alert alert-danger'>Promotion price should be cheaper than original price.</div>";
                     echo $promErr;
                     $flag = true;
                 }
 
-                if (empty($expired_date)) {
-                    $expErr = "<div class='alert alert-danger'>Please enter the expired date.</div>";
+                if (empty($manufacture_date)) {
+                    $expErr = "<div class='alert alert-danger'>Please enter the manufacture date.</div>";
                     echo $expErr;
                     $flag = true;
                 } else {
-                    $expired_date = $_POST["expired_date"];
-                    if (($expired_date) < ($manufacture_date)) {
+                    $manufacture_date = $_POST["manufacture_date"];
+                    if (empty($expired_date)) {
+                        $expired_date = NULL;
+                    } else if (($expired_date) < ($manufacture_date)) {
                         $expErr = "<div class='alert alert-danger'>Expired date should be later than manufacture date.</div>";
                         echo $expErr;
                         $flag = true;

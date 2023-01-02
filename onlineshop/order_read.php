@@ -101,6 +101,8 @@ include "session.php";
                 // read one record
                 echo "<a href='order_read_one.php?order_id={$order_id}' class='btn btn-info m-r-1em me-2'>Read</a>";
 
+                echo "<a href='order_update.php?order_id={$order_id}' class='btn btn-primary m-r-1em me-2'>Edit</a>";
+
                 // we will use this links on next part of this post
                 echo "<a href='#' onclick='delete_user({$order_id});'  class='btn btn-danger me-2'>Delete</a>";
                 echo "</td>";

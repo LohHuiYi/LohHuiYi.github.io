@@ -97,10 +97,18 @@ include "session.php";
                 echo "<td>{$id}</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$description}</td>";
-                echo "<td>{$price}</td>";
-                echo "<td>{$promotion_price}</td>";
+                echo "<td class = \"text-end\">" . number_format((float)$price, 2, '.', '') . "</td>";
+                if (htmlspecialchars($promotion_price, ENT_QUOTES) == NULL) {
+                    echo "<td class= \"text-end\" > " . "-" . "</td>";
+                } else {
+                    echo "<td class= \"text-end\" > " . number_format((float)htmlspecialchars($promotion_price, ENT_QUOTES), 2, '.', '') . "</td>";
+                };
                 echo "<td>{$manufacture_date}</td>";
-                echo "<td>{$expired_date}</td>";
+                if (htmlspecialchars($expired_date, ENT_QUOTES) == NULL) {
+                    echo "<td>" . "-" . "</td>";
+                } else {
+                    echo "<td>{$expired_date}</td>";
+                };
                 echo "<td>";
                 // read one record
                 echo "<a href='product_read_one.php?id={$id}' class='btn btn-info m-r-1em me-2'>Read</a>";

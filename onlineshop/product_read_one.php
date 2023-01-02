@@ -88,11 +88,11 @@ include "session.php";
             </tr>
             <tr>
                 <td>Price</td>
-                <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                <td><?php echo number_format((float)$price, 2, '.', '');  ?></td>
             </tr>
             <tr>
                 <td>Promotional Price</td>
-                <td><?php echo htmlspecialchars($promotion_price, ENT_QUOTES);  ?></td>
+                <td><?php echo number_format((float)$promotion_price, 2, '.', '');  ?></td>
             </tr>
             <tr>
                 <td>Manufacture Date</td>
