@@ -94,13 +94,10 @@ include 'session.php';
                     $stmt->bindParam(':quantity', $quantity[$x]);
                     $stmt->bindParam(':order_details_id', $order_details_id[$x]);
                     $stmt->bindParam(':price_each', $price_each);
-
-                    if ($stmt->execute()) {
-                        echo "<div class='alert alert-success'>Record was updated.</div>";
-                    } else {
-                        echo "<div class='alert alert-danger'>Unable to update record.</div>";
-                    }
                 }
+                echo "<div class='alert alert-success'>Record was updated.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Unable to update record.</div>";
             }
         }
 

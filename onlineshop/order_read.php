@@ -31,7 +31,7 @@ include "session.php";
     include "nav.php";
     ?>
 
-    <div class="container mt-5 pt-5">
+    <div class="container-fluid mt-5 pt-5">
         <div class="page-header">
             <h1>Read Orders</h1>
         </div>
