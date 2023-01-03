@@ -178,7 +178,7 @@ include "session.php";
                     $stmt->bindParam(':registration', $registration);
                     // Execute the query
                     if ($stmt->execute()) {
-                        header("Location: http://localhost/webdev/onlineshop/customers_read.php?action=successful");
+                        header("Location: customers_read.php?action=successful");
                     } else {
                         echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }

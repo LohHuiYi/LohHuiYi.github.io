@@ -91,8 +91,15 @@ include "session.php";
                 <td><?php echo number_format((float)$price, 2, '.', '');  ?></td>
             </tr>
             <tr>
-                <td>Promotional Price</td>
-                <td><?php echo number_format((float)$promotion_price, 2, '.', '');  ?></td>
+                <td>Promotion Price</td>
+                <td>
+                    <?php
+                    if ($promotion_price == null) {
+                        echo "-";
+                    } else {
+                        echo " RM" . number_format((float) $promotion_price, 2, '.', '');
+                    } ?>
+                </td>
             </tr>
             <tr>
                 <td>Manufacture Date</td>
@@ -100,7 +107,14 @@ include "session.php";
             </tr>
             <tr>
                 <td>Expired Date</td>
-                <td><?php echo htmlspecialchars($expired_date, ENT_QUOTES);  ?></td>
+                <td>
+                    <?php
+                    if ($expired_date == null) {
+                        echo "-";
+                    } else {
+                        echo htmlspecialchars($expired_date, ENT_QUOTES);
+                    } ?>
+                </td>
             </tr>
 
             <tr>

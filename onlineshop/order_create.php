@@ -160,7 +160,7 @@ include 'session.php';
                             $stmt->execute();
                         }
                     }
-                    header("Location: http://localhost/webdev/onlineshop/order_read.php?action=successful");
+                    header("Location: order_read.php?action=successful");
                 } else {
                     echo "<div class='alert alert-danger'>Unable to create order.</div>";
                 }
